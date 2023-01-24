@@ -36,7 +36,7 @@ function turnClick(square) {
 
   if (typeof origBoard[square.target.id] == "number") {
     turn(square.target.id, huPlayer);
-    turn(bestSpot(), aiPlayer);
+    if (!checkTie()) turn(bestSpot(), aiPlayer);
   }
 }
 
@@ -93,4 +93,16 @@ function emptySquares() {
 
 function bestSpot() {
   return emptySquares()[0];
+}
+
+function checkTie() {
+  if (emptySquares().length == 0) {
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].style.backgroundColor = "green";
+      cells[i].removeEventListener("click", turnClick, false);
+    }
+    declareWinner("Tie Game!");
+    return true;
+  }
+  return false;
 }
